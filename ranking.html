@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>排行榜 - 開扁 meme</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>排行榜</h1>
+    <nav>
+      <a href="index.html">首頁</a>
+      <a href="game.html">開始遊戲</a>
+      <a href="ranking.html" class="active">排行榜</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>最高分（前五名）</h2>
+
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th>排名</th>
+            <th>玩家名稱</th>
+            <th>分數</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <!-- JS 會自動填入 -->
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    // 讀取排行榜資料
+    const leaderboard =
+      JSON.parse(localStorage.getItem("memeLeaderboard") || "[]");
+
+    const tbody = document.getElementById("leaderboard-body");
+
+    // 若無資料
+    if (leaderboard.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="3">尚未遊玩</td>
+        </tr>
+      `;
+    } else {
+      // 顯示前五筆
+      tbody.innerHTML = leaderboard
+        .map(
+          (entry, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${entry.name}</td>
+            <td>${entry.score}</td>
+          </tr>
+        `
+        )
+        .join("");
+    }
+  </script>
+</body>
+</html>
